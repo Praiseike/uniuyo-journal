@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\APIAuthentication;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::group(['prefix'=>'v1'],function(){
+    Route::get('/',function(){
+        return ['message' => 'Welcome to University of Uyo Journal API: v1'];
+    });
+
+    Route::get('/user',function(Request $request){
+        return $request->user();
+    });
+
+    Route::post('/login',[APIAuthentication::class,'login'])->name('login.api');
+    Route::post('/register',[APIAuthentication::class,'register'])->name('register.api');
+    Route::post('/logout',[APIAuthentication::class,'logout'])->name('logout.api');
+})->middleware('auth:api');
+
