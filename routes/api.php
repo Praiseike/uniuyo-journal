@@ -16,16 +16,22 @@ use App\Http\Controllers\Auth\APIAuthentication;
 */
 
 Route::group(['prefix'=>'v1'],function(){
-    Route::get('/',function(){
-        return ['message' => 'Welcome to University of Uyo Journal API: v1'];
-    });
 
-    Route::get('/user',function(Request $request){
-        return $request->user();
+    Route::group(['middleware'=>'auth:api'],function(){
+        Route::get('/',function(){
+            return ['message' => 'Welcome to University of Uyo Journal API: v1'];
+        });
+    
+        Route::get('/user',function(Request $request){
+            return response()->json($request->user());
+        });
+    
+        Route::post('/logout',[APIAuthentication::class,'logout'])->name('logout.api');
     });
-
-    Route::post('/login',[APIAuthentication::class,'login'])->name('login.api');
-    Route::post('/register',[APIAuthentication::class,'register'])->name('register.api');
-    Route::post('/logout',[APIAuthentication::class,'logout'])->name('logout.api');
-})->middleware('auth:api');
+    
+    Route::group(['middleware'=>'guest'],function(){
+        Route::post('/register',[APIAuthentication::class,'register'])->name('register.api');
+        Route::post('/login',[APIAuthentication::class,'login'])->name('login.api');
+    });
+});
 

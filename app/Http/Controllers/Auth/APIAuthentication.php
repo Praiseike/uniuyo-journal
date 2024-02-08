@@ -14,11 +14,25 @@ use App\Models\User;
 
 class APIAuthentication extends Controller
 {
-    //
 
+protected function jsonResponse($status, $data = null, $statusCode = 200)
+    {
+        $response = [
+            'status' => $status,
+        ];
+
+        if ($status === 'success') {
+            $response['data'] = $data;
+        } elseif ($status === 'error') {
+            $response['message'] = $data;
+        }
+
+
+        return response()->json($response, $statusCode);
+    }
 
     public function register(Request $request){
-        $validator = Validator::make($request->all(),[
+        $validated = $request->validate([
             'first_name' => 'required|string|max:255',            
             'last_name' => 'required|string|max:255',            
             'avatar' => 'required|string|max:255',            
@@ -26,51 +40,50 @@ class APIAuthentication extends Controller
             'password' => 'required|string|confirmed'
         ]);
 
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);
-        }
 
+
+        // hash the password and create remember token
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
+
+        // create the user with the credentials
         $user = User::create($request->all());
 
+        // get the user access token
         $token = $user->createToken('token')->accessToken;
-        $response = ['token' => $token];
-        return response()->json($response);
+        $response = ['token' => $token,'user'=>$user];
+        
+        return $this->jsonResponse('success',$response);
     }
 
     public function login(Request $request){
-        $validator = Validator::make($request->all(),[     
+
+        $validator = $request->validate([     
             'email' => 'required|string|email|max:255',
             'password' => 'required|string'
         ]);
-
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()]);
-        }
 
         $user = User::where('email',$request['email'])->first();
 
         if($user){
             if(Hash::check($request->password,$user->password)){
                 $token = $user->createToken('token')->accessToken;
-                $response = ['token' => $token];
-                return response()->json($response);
+                $response = ['user'=>$user,'token' => $token];
+                return $this->jsonResponse('success',$response);
             }else{
-                $response = ['message' => 'Password mismatch'];
-                return response($response,422);
-                
+                $response = 'Password mismatch';
+                return $this->jsonResponse('error',$response,422);   
             }
         }else{
-            $response = ['message' => 'User does not exist'];
-            return response($response,422);
+            $response = 'User does not exist';
+            return $this->jsonResponse('error',$response,422);
         }
     }
 
     public function logout(Request $request){
         $token = $request->user()->token();
         $token->revoke();
-        $response = ['message' => 'You have been logged out'];
-        return response($response,422)->json();
+        $response = 'You have been logged out';
+        return $this->jsonResponse('error',$response,422);
     }
 }
