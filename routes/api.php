@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\APIAuthentication;
+use App\Http\Controllers\Api\ArticleController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +18,29 @@ use App\Http\Controllers\Auth\APIAuthentication;
 
 Route::group(['prefix'=>'v1'],function(){
 
+    Route::get('papers/search',[ArticleController::class,'search'])->name('paper.search');
+    Route::apiResource('papers',ArticleController::class);
+
+
+    
+    
+    
+    
+    Route::get('auth/google/redirect', [ APIAuthentication::class,'googleRedirect'])->name('google-auth');
+    Route::get('auth/callback',[ APIAuthentication::class,'googleCallback']);
+
+
+
+
+
+
+
+
+
+
+
+
+     
     Route::group(['middleware'=>'auth:api'],function(){
         Route::get('/',function(){
             return ['message' => 'Welcome to University of Uyo Journal API: v1'];
@@ -25,7 +49,7 @@ Route::group(['prefix'=>'v1'],function(){
         Route::get('/user',function(Request $request){
             return response()->json($request->user());
         });
-    
+
         Route::post('/logout',[APIAuthentication::class,'logout'])->name('logout.api');
     });
     

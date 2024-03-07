@@ -8,34 +8,57 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-
+use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
-
+use App\Traits\ResponseFormat;
 
 class APIAuthentication extends Controller
 {
 
-protected function jsonResponse($status, $data = null, $statusCode = 200)
-    {
-        $response = [
-            'status' => $status,
-        ];
+    use ResponseFormat;    
 
-        if ($status === 'success') {
-            $response['data'] = $data;
-        } elseif ($status === 'error') {
-            $response['message'] = $data;
-        }
-
-
-        return response()->json($response, $statusCode);
+    public function googleRedirect(){
+        return response()->json([
+            'url' => Socialite::driver('google')
+                ->stateless()
+                ->redirect()
+                ->getTargetUrl(),
+        ]);
     }
+
+
+    public function googleCallback(){
+        try{
+            $google_user = Socialite::driver('google')->stateless()->user();
+        
+            $user = User::where('email',$google_user->getEmail())->first();
+
+            if(!$user){
+                [$firstname, $lastname] = explode(" ",$google_user->getName());
+                // return $google_user->getName();
+                $user = User::create([
+                    'first_name' => $firstname,
+                    'last_name' => $lastname,
+                    'email' => $google_user->getEmail(),
+                    'google_id' => $google_user->getId(),
+                ]);
+            }
+
+            $token = $user->createToken('token')->accessToken;
+            $response = ['user'=>$user,'token' => $token];
+            return $this->jsonResponse('success',$response);
+        }catch(\Throwable $e){
+            
+        }
+    }
+
+
 
     public function register(Request $request){
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',            
             'last_name' => 'required|string|max:255',            
-            'avatar' => 'required|string|max:255',            
+            'avatar' => 'string|max:255',            
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed'
         ]);
@@ -53,7 +76,7 @@ protected function jsonResponse($status, $data = null, $statusCode = 200)
         $token = $user->createToken('token')->accessToken;
         $response = ['token' => $token,'user'=>$user];
         
-        return $this->jsonResponse('success',$response);
+        return $this->jsonResponse(status: 'success',data: $response);
     }
 
     public function login(Request $request){

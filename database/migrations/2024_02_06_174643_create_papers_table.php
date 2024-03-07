@@ -24,9 +24,10 @@ return new class extends Migration
             $table->foreignId('reviewer_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
-            $table->string('authors');
-            $table->text('reference');
+                ->onDelete('cascade')
+                ->nullable();
+            $table->string('authors')->nullable();
+            $table->text('reference')->nullable();
             $table->string('file_path');
             $table->foreignId('paper_status_id')
                 ->references('id')
