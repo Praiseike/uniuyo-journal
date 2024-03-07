@@ -11,7 +11,7 @@ class ArticleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,10 +23,10 @@ class ArticleRequest extends FormRequest
     {
         return [
             'title' => 'string|required',
-            'slug' => 'string|required|max:255',
+            'slug' => 'string|max:255',
             'abstract' => 'string|required',
             'authors' => 'string|required',
             'reference' =>'string|required',
-        ];
+        ];        
     }
 }

@@ -18,8 +18,6 @@ use App\Http\Controllers\Api\ArticleController;
 
 Route::group(['prefix'=>'v1'],function(){
 
-    Route::get('papers/search',[ArticleController::class,'search'])->name('paper.search');
-    Route::apiResource('papers',ArticleController::class);
 
 
     
@@ -51,6 +49,22 @@ Route::group(['prefix'=>'v1'],function(){
         });
 
         Route::post('/logout',[APIAuthentication::class,'logout'])->name('logout.api');
+
+
+        Route::get('papers/search',[ArticleController::class,'search'])->name('paper.search');
+        Route::apiResource('papers',ArticleController::class)
+        ->missing(function () {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The article with the requested ID does not exist.',
+            ], 404);
+        });
+    
+
+
+
+
+
     });
     
     Route::group(['middleware'=>'guest'],function(){

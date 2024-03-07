@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::create([
             'first_name' => 'Test',
             'last_name' => 'User',
-            'email' => 'admin@gmail.com'
+            'email' => 'admin@gmail.com',
+            'password' => \Hash::make('pa33word**')
         ]);
 
         \App\Models\Transaction::create([

@@ -20,21 +20,22 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('abstract');
+            $table->text('content')->nullable();
             $table->timestamp('published_on');
             $table->foreignId('reviewer_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade')
                 ->nullable();
             $table->string('authors')->nullable();
             $table->text('reference')->nullable();
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
             $table->foreignId('paper_status_id')
-                ->references('id')
-                ->on('paper_status');
+                // ->references('id')
+                // ->on('paper_status')
+                ->nullable();
+
             $table->foreignId('transaction_id')
-                ->references('id')
-                ->on('transactions');
+                // ->references('id')
+                // ->on('transactions')
+                ->nullable();
 
             $table->timestamps();
         });

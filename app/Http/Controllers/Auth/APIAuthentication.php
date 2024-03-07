@@ -48,7 +48,7 @@ class APIAuthentication extends Controller
             $response = ['user'=>$user,'token' => $token];
             return $this->jsonResponse('success',$response);
         }catch(\Throwable $e){
-            
+            dd($e);
         }
     }
 

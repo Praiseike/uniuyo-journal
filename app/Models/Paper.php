@@ -9,7 +9,18 @@ use Laravel\Scout\Searchable;
 class Paper extends Model
 {
     use HasFactory, Searchable;
-    
+    protected $fillable = [
+        'slug',
+        'title',
+        'content',
+        'abstract',
+        'authors',
+        'file_path',
+        // 'reviewer_id',
+        'transaction_id',
+        'user_id'
+    ];
+
     public function toSearchableArray()
     {
         return [
