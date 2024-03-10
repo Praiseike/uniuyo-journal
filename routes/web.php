@@ -30,7 +30,7 @@ Route::get('/seed-database',function (){
 });
 
 Route::get('/install-passport',function (){
-    \Artisan::call('artisan passport:install --force');
+    \Artisan::call('passport:install --force');
     return "installed successfully";
 
 });

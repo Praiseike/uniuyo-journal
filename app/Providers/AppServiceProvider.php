@@ -8,6 +8,8 @@ use Laravel\Passport\Console\InstallCommand;
 use Laravel\Passport\Console\KeysCommand;
 use Laravel\Passport\Passport;
 
+
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
-        Passport::routes();
     
         /*ADD THIS LINES*/
         $this->commands([
