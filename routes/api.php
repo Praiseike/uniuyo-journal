@@ -17,32 +17,8 @@ use App\Http\Controllers\Api\ArticleController;
 */
 
 Route::group(['prefix'=>'v1'],function(){
-
-
-
-    
-    
-    
-    
-    Route::get('auth/google/redirect', [ APIAuthentication::class,'googleRedirect'])->name('google-auth');
-    Route::get('auth/callback',[ APIAuthentication::class,'googleCallback']);
-
-
-
-
-
-
-
-
-
-
-
-
      
     Route::group(['middleware'=>'auth:api'],function(){
-        Route::get('/',function(){
-            return ['message' => 'Welcome to University of Uyo Journal API: v1'];
-        });
     
         Route::get('/user',function(Request $request){
             return response()->json($request->user());
@@ -60,14 +36,15 @@ Route::group(['prefix'=>'v1'],function(){
             ], 404);
         });
     
-
-
-
-
-
     });
     
-    Route::group(['middleware'=>'guest'],function(){
+    Route::group(['middleware'=>'guest'],function(){            
+        Route::get('auth/google/redirect', [ APIAuthentication::class,'googleRedirect'])->name('google-auth');
+        Route::get('auth/callback',[ APIAuthentication::class,'googleCallback']);
+
+        Route::get('/',function(){
+            return ['message' => 'Welcome to University of Uyo Journal API: v1'];
+        });
         Route::post('/register',[APIAuthentication::class,'register'])->name('register.api');
         Route::post('/login',[APIAuthentication::class,'login'])->name('login.api');
     });

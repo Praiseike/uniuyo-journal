@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Test',
             'last_name' => 'User',
             'email' => 'admin@gmail.com',
-            'password' => \Hash::make('pa33word**')
+            'password' => \Hash::make('pa33word**'),
+            'role_id' => \App\Models\Role::where('name','admin')->first()->id,
         ]);
 
         \App\Models\Transaction::create([

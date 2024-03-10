@@ -16,6 +16,7 @@ class Paper extends Model
         'abstract',
         'authors',
         'file_path',
+        'reference',
         // 'reviewer_id',
         'transaction_id',
         'user_id'

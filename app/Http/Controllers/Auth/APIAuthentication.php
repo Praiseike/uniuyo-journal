@@ -41,6 +41,8 @@ class APIAuthentication extends Controller
                     'last_name' => $lastname,
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId(),
+                    'avatar' => $google_user->getAvatar(),
+                    'role_id' => \App\Models\Role::where('name','admin')->first()->id,
                 ]);
             }
 

@@ -31,23 +31,21 @@ class ArticleController extends Controller
         $request->validate([
             'query' => 'string|required',
         ]);
-
+        
         $query = $request->get('query');
-
         $articles = Paper::search($query)->get();
-
         return $this->jsonResponse(status: 'success',data: $articles);
     }
 
 
     /**
-     * Store a newly created resource in storage.
-     */
+    * Store a newly created resource in storage.
+    */
+
     public function store(ArticleRequest $request)
     {
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
-        // return $data;
         $paper = Paper::create($data);
         return $this->jsonResponse(status:'success',data: $paper);
     }
