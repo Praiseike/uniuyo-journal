@@ -70,7 +70,8 @@ class APIAuthentication extends Controller
         // hash the password and create remember token
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
-
+        $request['role_id'] = \App\Models\Role::where('name','user')->first()->id;
+        
         // create the user with the credentials
         $user = User::create($request->all());
 
