@@ -8,13 +8,11 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Paper;
 use App\Http\Requests\Api\ArticleRequest;
-use App\Traits\ResponseFormat;
 
 
 class ArticleController extends Controller
 {
 
-    use ResponseFormat;
 
     /**
      * Display a listing of the resource.
@@ -25,29 +23,32 @@ class ArticleController extends Controller
     }
 
 
-    // search 
+    // search
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $request->validate([
             'query' => 'string|required',
         ]);
-        
+
         $query = $request->get('query');
+
         $articles = Paper::search($query)->get();
-        return $this->jsonResponse(status: 'success',data: $articles);
+
+        return jsonResponse(status: 'success', data: $articles);
     }
 
 
     /**
-    * Store a newly created resource in storage.
-    */
-
+     * Store a newly created resource in storage.
+     */
     public function store(ArticleRequest $request)
     {
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
+        // return $data;
         $paper = Paper::create($data);
-        return $this->jsonResponse(status:'success',data: $paper);
+        return jsonResponse(status: 'success', data: $paper);
     }
 
     /**
@@ -55,7 +56,7 @@ class ArticleController extends Controller
      */
     public function show(Paper $paper)
     {
-        return $this->jsonResponse('success',$paper);
+        return jsonResponse('success', $paper);
     }
 
     /**
@@ -64,7 +65,7 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, Paper $paper)
     {
         $paper->update($request->all());
-        return $this->jsonResponse(status: 'success',data: $paper);
+        return jsonResponse(status: 'success', data: $paper);
     }
 
     /**
@@ -73,6 +74,6 @@ class ArticleController extends Controller
     public function destroy(Paper $paper)
     {
         $paper->delete($paper);
-        return $this->jsonResponse('success',['message' => 'deleted article']);
+        return jsonResponse('success', ['message' => 'deleted article']);
     }
 }
