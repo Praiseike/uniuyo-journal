@@ -33,8 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Schema::defaultStringLength(191);
-    
-        /*ADD THIS LINES*/
+
         $this->commands([
             InstallCommand::class,
             ClientCommand::class,
