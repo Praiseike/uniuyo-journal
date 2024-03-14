@@ -14,40 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        \App\Models\Role::create([
-            'name' => 'user',
-        ]);
-
-        \App\Models\Role::create([
-            'name' => 'reviewer',
-        ]);
-
-        \App\Models\Role::create([
-            'name' => 'admin',
-        ]);
-
-        \App\Models\User::create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'email' => 'admin@gmail.com',
-            'password' => \Hash::make('pa33word**'),
-            'role_id' => \App\Models\Role::where('name','admin')->first()->id,
-        ]);
-
-        \App\Models\Transaction::create([
-            'user_id' => 1,
-            'status' => 'paid',
-            'amount' => 10000,
-            'transactionId' => 'T_ILAJR4298784IL',
-        ]);
-
-        \App\Models\PaperStatus::create([
-            'name' => 'paid',
-            'value' => 'paid',
-        ]);
-
-        Paper::factory()->count(10)->create();
-
+        $this->call(RoleSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(TransactionSeeder::class);
+        $this->call(PaperStatusSeeder::class);
+        $this->call(PaperSeeder::class);
     }
 }
