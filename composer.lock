@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16038669ea1e018ff23dd6ccd3686e78",
+    "content-hash": "cae193c9322231d07501b3ed3a7a7c71",
     "packages": [
         {
             "name": "brick/math",
@@ -7364,6 +7364,57 @@
                 "source": "https://github.com/laravel/sail"
             },
             "time": "2024-03-04T14:58:29+00:00"
+        },
+        {
+            "name": "lianmafutra/deploy",
+            "version": "v1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lianmafutra/deploy.git",
+                "reference": "fa0932923fa96b9e86c179ca56978ea6a4cae008"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lianmafutra/deploy/zipball/fa0932923fa96b9e86c179ca56978ea6a4cae008",
+                "reference": "fa0932923fa96b9e86c179ca56978ea6a4cae008",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0|^9.0|^10.0",
+                "php": "^7.4|^8.0|^8.1"
+            },
+            "require-dev": {
+                "phpseclib/phpseclib": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LianMafutra\\Deploy\\LibraryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LianMafutra\\Deploy\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lian Mafutra",
+                    "email": "lianmafutra@gmail.com"
+                }
+            ],
+            "description": "Laravel Git FTP Deploy",
+            "support": {
+                "issues": "https://github.com/lianmafutra/deploy/issues",
+                "source": "https://github.com/lianmafutra/deploy/tree/v1.8"
+            },
+            "time": "2023-07-03T14:29:38+00:00"
         },
         {
             "name": "mockery/mockery",

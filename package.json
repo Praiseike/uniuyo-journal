@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "deploy": "npm run build && node deploy.js"
     },
     "devDependencies": {
         "axios": "^1.1.2",
@@ -11,5 +12,8 @@
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "dotenv": "^16.4.5"
     }
 }
