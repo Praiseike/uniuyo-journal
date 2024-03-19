@@ -61,6 +61,7 @@ Route::group(['prefix' => 'v1'], function () {
                 });
         });
     });
+    
 
     Route::prefix('papers')->group(function () {
         Route::get('/', [ArticleController::class, 'index']);
